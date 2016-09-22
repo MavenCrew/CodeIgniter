@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter
+ * CodeIgniter.
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
@@ -16,17 +16,17 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
+/*
  * CodeIgniter Path Helpers
  *
  * @package		CodeIgniter
@@ -38,36 +38,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('set_realpath'))
-{
-	/**
-	 * Set Realpath
-	 *
-	 * @param	string
-	 * @param	bool	checks to see if the path exists
-	 * @return	string
-	 */
-	function set_realpath($path, $check_existance = FALSE)
-	{
-		// Security check to make sure the path is NOT a URL. No remote file inclusion!
-		if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i', $path))
-		{
-			show_error('The path you submitted must be a local server path, not a URL');
-		}
+if (!function_exists('set_realpath')) {
+    /**
+     * Set Realpath.
+     *
+     * @param	string
+     * @param	bool	checks to see if the path exists
+     *
+     * @return string
+     */
+    function set_realpath($path, $check_existance = false)
+    {
+        // Security check to make sure the path is NOT a URL. No remote file inclusion!
+        if (preg_match('#^(http:\/\/|https:\/\/|www\.|ftp|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#i', $path)) {
+            show_error('The path you submitted must be a local server path, not a URL');
+        }
 
-		// Resolve the path
-		if (@realpath($path) !== FALSE)
-		{
-			$path = realpath($path);
-		}
-		elseif ($check_existance && ! is_dir($path) && ! is_file($path))
-		{
-			show_error('Not a valid path: '.$path);
-		}
+        // Resolve the path
+        if (@realpath($path) !== false) {
+            $path = realpath($path);
+        } elseif ($check_existance && !is_dir($path) && !is_file($path)) {
+            show_error('Not a valid path: '.$path);
+        }
 
-		// Add a trailing slash, if this is a directory
-		return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
-	}
+        // Add a trailing slash, if this is a directory
+        return is_dir($path) ? rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : $path;
+    }
 }
 
 /* End of file path_helper.php */

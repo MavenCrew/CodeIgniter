@@ -1,5 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
+<?php
+
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
+/*
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
@@ -77,29 +81,29 @@
 */
 
 $active_group = 'default';
-$query_builder = TRUE;
+$query_builder = true;
 
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => TRUE,
-	'db_debug' => TRUE,
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'autoinit' => TRUE,
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array()
-);
+$db['default'] = [
+    'dsn'      => '',
+    'hostname' => 'localhost',
+    'username' => '',
+    'password' => '',
+    'database' => '',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => true,
+    'db_debug' => true,
+    'cache_on' => false,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'autoinit' => true,
+    'encrypt'  => false,
+    'compress' => false,
+    'stricton' => false,
+    'failover' => [],
+];
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

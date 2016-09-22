@@ -1,5 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
+<?php
+
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
+/*
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
@@ -75,7 +79,7 @@
 */
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['translate_uri_dashes'] = false;
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

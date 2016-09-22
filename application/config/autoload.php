@@ -1,5 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
+<?php
+
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
+/*
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
@@ -64,7 +68,7 @@
 |
 */
 
-$autoload['packages'] = array();
+$autoload['packages'] = [];
 
 
 /*
@@ -79,7 +83,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'email', 'xmlrpc');
 */
 
-$autoload['libraries'] = array();
+$autoload['libraries'] = [];
 
 
 /*
@@ -95,7 +99,7 @@ $autoload['libraries'] = array();
 |	$autoload['drivers'] = array('session', 'cache');
 */
 
-$autoload['drivers'] = array();
+$autoload['drivers'] = [];
 
 
 /*
@@ -107,7 +111,7 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
+$autoload['helper'] = [];
 
 
 /*
@@ -123,7 +127,7 @@ $autoload['helper'] = array();
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = [];
 
 
 /*
@@ -139,7 +143,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = [];
 
 
 /*
@@ -156,7 +160,7 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array();
+$autoload['model'] = [];
 
 
 /* End of file autoload.php */

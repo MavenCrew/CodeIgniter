@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter
+ * CodeIgniter.
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
@@ -16,53 +16,53 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * Model Class
+ * Model Class.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
  * @category	Libraries
+ *
  * @author		EllisLab Dev Team
+ *
  * @link		http://codeigniter.com/user_guide/libraries/config.html
  */
-class CI_Model {
+class CI_Model
+{
+    /**
+     * Class constructor.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        log_message('debug', 'Model Class Initialized');
+    }
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
-	public function __construct()
-	{
-		log_message('debug', 'Model Class Initialized');
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * __get magic.
+     *
+     * Allows models to access CI's loaded classes using the same
+     * syntax as controllers.
+     *
+     * @param string $key
+     */
+    public function __get($key)
+    {
+        $CI = &get_instance();
 
-	/**
-	 * __get magic
-	 *
-	 * Allows models to access CI's loaded classes using the same
-	 * syntax as controllers.
-	 *
-	 * @param	string	$key
-	 */
-	public function __get($key)
-	{
-		$CI =& get_instance();
-		return $CI->$key;
-	}
-
+        return $CI->$key;
+    }
 }
 
 /* End of file Model.php */
