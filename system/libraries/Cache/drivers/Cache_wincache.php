@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter
+ * CodeIgniter.
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
@@ -16,147 +16,149 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
  * @link		http://codeigniter.com
  * @since		Version 3.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * CodeIgniter Wincache Caching Class
+ * CodeIgniter Wincache Caching Class.
  *
  * Read more about Wincache functions here:
  * http://www.php.net/manual/en/ref.wincache.php
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
  * @category	Core
+ *
  * @author		Mike Murkovic
+ *
  * @link
  */
-class CI_Cache_wincache extends CI_Driver {
+class CI_Cache_wincache extends CI_Driver
+{
+    /**
+     * Get.
+     *
+     * Look for a value in the cache. If it exists, return the data,
+     * if not, return FALSE
+     *
+     * @param	string
+     *
+     * @return mixed value that is stored/FALSE on failure
+     */
+    public function get($id)
+    {
+        $success = false;
+        $data = wincache_ucache_get($id, $success);
 
-	/**
-	 * Get
-	 *
-	 * Look for a value in the cache. If it exists, return the data,
-	 * if not, return FALSE
-	 *
-	 * @param	string
-	 * @return	mixed	value that is stored/FALSE on failure
-	 */
-	public function get($id)
-	{
-		$success = FALSE;
-		$data = wincache_ucache_get($id, $success);
+        // Success returned by reference from wincache_ucache_get()
+        return ($success) ? $data : false;
+    }
 
-		// Success returned by reference from wincache_ucache_get()
-		return ($success) ? $data : FALSE;
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * Cache Save.
+     *
+     * @param	string	Unique Key
+     * @param	mixed	Data to store
+     * @param	int	Length of time (in seconds) to cache the data
+     *
+     * @return bool true on success/false on failure
+     */
+    public function save($id, $data, $ttl = 60)
+    {
+        return wincache_ucache_set($id, $data, $ttl);
+    }
 
-	/**
-	 * Cache Save
-	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
-	 * @return	bool	true on success/false on failure
-	 */
-	public function save($id, $data, $ttl = 60)
-	{
-		return wincache_ucache_set($id, $data, $ttl);
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * Delete from Cache.
+     *
+     * @param	mixed	unique identifier of the item in the cache
+     *
+     * @return bool true on success/false on failure
+     */
+    public function delete($id)
+    {
+        return wincache_ucache_delete($id);
+    }
 
-	/**
-	 * Delete from Cache
-	 *
-	 * @param	mixed	unique identifier of the item in the cache
-	 * @return	bool	true on success/false on failure
-	 */
-	public function delete($id)
-	{
-		return wincache_ucache_delete($id);
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * Clean the cache.
+     *
+     * @return bool false on failure/true on success
+     */
+    public function clean()
+    {
+        return wincache_ucache_clear();
+    }
 
-	/**
-	 * Clean the cache
-	 *
-	 * @return	bool	false on failure/true on success
-	 */
-	public function clean()
-	{
-		return wincache_ucache_clear();
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+     /**
+      * Cache Info.
+      *
+      * @return	mixed	array on success, false on failure
+      */
+     public function cache_info()
+     {
+         return wincache_ucache_info(true);
+     }
 
-	/**
-	 * Cache Info
-	 *
-	 * @return	mixed	array on success, false on failure
-	 */
-	 public function cache_info()
-	 {
-		 return wincache_ucache_info(TRUE);
-	 }
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * Get Cache Metadata.
+     *
+     * @param	mixed	key to get cache metadata on
+     *
+     * @return mixed array on success/false on failure
+     */
+    public function get_metadata($id)
+    {
+        if ($stored = wincache_ucache_info(false, $id)) {
+            $age = $stored['ucache_entries'][1]['age_seconds'];
+            $ttl = $stored['ucache_entries'][1]['ttl_seconds'];
+            $hitcount = $stored['ucache_entries'][1]['hitcount'];
 
-	/**
-	 * Get Cache Metadata
-	 *
-	 * @param	mixed	key to get cache metadata on
-	 * @return	mixed	array on success/false on failure
-	 */
-	public function get_metadata($id)
-	{
-		if ($stored = wincache_ucache_info(FALSE, $id))
-		{
-			$age = $stored['ucache_entries'][1]['age_seconds'];
-			$ttl = $stored['ucache_entries'][1]['ttl_seconds'];
-			$hitcount = $stored['ucache_entries'][1]['hitcount'];
+            return [
+                'expire'      => $ttl - $age,
+                'hitcount'    => $hitcount,
+                'age'         => $age,
+                'ttl'         => $ttl,
+            ];
+        }
 
-			return array(
-				'expire'	=> $ttl - $age,
-				'hitcount'	=> $hitcount,
-				'age'		=> $age,
-				'ttl'		=> $ttl
-			);
-		}
+        return false;
+    }
 
-		return FALSE;
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * is_supported().
+     *
+     * Check to see if WinCache is available on this system, bail if it isn't.
+     *
+     * @return bool
+     */
+    public function is_supported()
+    {
+        if (!extension_loaded('wincache')) {
+            log_message('debug', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
 
-	/**
-	 * is_supported()
-	 *
-	 * Check to see if WinCache is available on this system, bail if it isn't.
-	 *
-	 * @return	bool
-	 */
-	public function is_supported()
-	{
-		if ( ! extension_loaded('wincache'))
-		{
-			log_message('debug', 'The Wincache PHP extension must be loaded to use Wincache Cache.');
-			return FALSE;
-		}
+            return false;
+        }
 
-		return TRUE;
-	}
-
+        return true;
+    }
 }
 
 /* End of file Cache_wincache.php */

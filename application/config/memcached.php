@@ -1,5 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
+<?php
+
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
+/*
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.2.4 or newer
@@ -34,13 +38,13 @@
 |	See: http://codeigniter.com/user_guide/libraries/caching.html#memcached
 |
 */
-$config = array(
-	'default' => array(
-		'hostname' => '127.0.0.1',
-		'port'     => '11211',
-		'weight'   => '1',
-	),
-);
+$config = [
+    'default' => [
+        'hostname' => '127.0.0.1',
+        'port'     => '11211',
+        'weight'   => '1',
+    ],
+];
 
 /* End of file memcached.php */
 /* Location: ./application/config/memcached.php */

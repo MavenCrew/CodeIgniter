@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter
+ * CodeIgniter.
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
@@ -16,147 +16,150 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
  * @link		http://codeigniter.com
  * @since		Version 2.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * CodeIgniter APC Caching Class
+ * CodeIgniter APC Caching Class.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
  * @category	Core
+ *
  * @author		EllisLab Dev Team
+ *
  * @link
  */
-class CI_Cache_apc extends CI_Driver {
+class CI_Cache_apc extends CI_Driver
+{
+    /**
+     * Get.
+     *
+     * Look for a value in the cache. If it exists, return the data
+     * if not, return FALSE
+     *
+     * @param	string
+     *
+     * @return mixed value that is stored/FALSE on failure
+     */
+    public function get($id)
+    {
+        $success = false;
+        $data = apc_fetch($id, $success);
 
-	/**
-	 * Get
-	 *
-	 * Look for a value in the cache. If it exists, return the data
-	 * if not, return FALSE
-	 *
-	 * @param	string
-	 * @return	mixed	value that is stored/FALSE on failure
-	 */
-	public function get($id)
-	{
-		$success = FALSE;
-		$data = apc_fetch($id, $success);
+        return ($success === true && is_array($data))
+            ? unserialize($data[0]) : false;
+    }
 
-		return ($success === TRUE && is_array($data))
-			? unserialize($data[0]) : FALSE;
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * Cache Save.
+     *
+     * @param	string	Unique Key
+     * @param	mixed	Data to store
+     * @param	int	Length of time (in seconds) to cache the data
+     *
+     * @return bool true on success/false on failure
+     */
+    public function save($id, $data, $ttl = 60)
+    {
+        $ttl = (int) $ttl;
 
-	/**
-	 * Cache Save
-	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
-	 *
-	 * @return	bool	true on success/false on failure
-	 */
-	public function save($id, $data, $ttl = 60)
-	{
-		$ttl = (int) $ttl;
-		return apc_store($id, array(serialize($data), time(), $ttl), $ttl);
-	}
+        return apc_store($id, [serialize($data), time(), $ttl], $ttl);
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Delete from Cache
-	 *
-	 * @param	mixed	unique identifier of the item in the cache
-	 * @return	bool	true on success/false on failure
-	 */
-	public function delete($id)
-	{
-		return apc_delete($id);
-	}
+    /**
+     * Delete from Cache.
+     *
+     * @param	mixed	unique identifier of the item in the cache
+     *
+     * @return bool true on success/false on failure
+     */
+    public function delete($id)
+    {
+        return apc_delete($id);
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Clean the cache
-	 *
-	 * @return	bool	false on failure/true on success
-	 */
-	public function clean()
-	{
-		return apc_clear_cache('user');
-	}
+    /**
+     * Clean the cache.
+     *
+     * @return bool false on failure/true on success
+     */
+    public function clean()
+    {
+        return apc_clear_cache('user');
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Cache Info
-	 *
-	 * @param	string	user/filehits
-	 * @return	mixed	array on success, false on failure
-	 */
-	 public function cache_info($type = NULL)
-	 {
-		 return apc_cache_info($type);
-	 }
+     /**
+      * Cache Info.
+      *
+      * @param	string	user/filehits
+      *
+      * @return	mixed	array on success, false on failure
+      */
+     public function cache_info($type = null)
+     {
+         return apc_cache_info($type);
+     }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Get Cache Metadata
-	 *
-	 * @param	mixed	key to get cache metadata on
-	 * @return	mixed	array on success/false on failure
-	 */
-	public function get_metadata($id)
-	{
-		$success = FALSE;
-		$stored = apc_fetch($id, $success);
+    /**
+     * Get Cache Metadata.
+     *
+     * @param	mixed	key to get cache metadata on
+     *
+     * @return mixed array on success/false on failure
+     */
+    public function get_metadata($id)
+    {
+        $success = false;
+        $stored = apc_fetch($id, $success);
 
-		if ($success === FALSE OR count($stored) !== 3)
-		{
-			return FALSE;
-		}
+        if ($success === false or count($stored) !== 3) {
+            return false;
+        }
 
-		list($data, $time, $ttl) = $stored;
+        list($data, $time, $ttl) = $stored;
 
-		return array(
-			'expire'	=> $time + $ttl,
-			'mtime'		=> $time,
-			'data'		=> unserialize($data)
-		);
-	}
+        return [
+            'expire'       => $time + $ttl,
+            'mtime'        => $time,
+            'data'         => unserialize($data),
+        ];
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * is_supported()
-	 *
-	 * Check to see if APC is available on this system, bail if it isn't.
-	 *
-	 * @return	bool
-	 */
-	public function is_supported()
-	{
-		if ( ! extension_loaded('apc') OR ! (bool) @ini_get('apc.enabled'))
-		{
-			log_message('debug', 'The APC PHP extension must be loaded to use APC Cache.');
-			return FALSE;
-		}
+    /**
+     * is_supported().
+     *
+     * Check to see if APC is available on this system, bail if it isn't.
+     *
+     * @return bool
+     */
+    public function is_supported()
+    {
+        if (!extension_loaded('apc') or !(bool) @ini_get('apc.enabled')) {
+            log_message('debug', 'The APC PHP extension must be loaded to use APC Cache.');
 
-		return TRUE;
-	}
+            return false;
+        }
 
+        return true;
+    }
 }
 
 /* End of file Cache_apc.php */

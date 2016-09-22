@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter
+ * CodeIgniter.
  *
  * An open source application development framework for PHP 5.2.4 or newer
  *
@@ -16,52 +16,55 @@
  * through the world wide web, please send an email to
  * licensing@ellislab.com so we can send you a copy immediately.
  *
- * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2013, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ *
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * Postgre Utility Class
+ * Postgre Utility Class.
  *
  * @category	Database
+ *
  * @author		EllisLab Dev Team
+ *
  * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_postgre_utility extends CI_DB_utility {
+class CI_DB_postgre_utility extends CI_DB_utility
+{
+    /**
+     * List databases statement.
+     *
+     * @var string
+     */
+    protected $_list_databases = 'SELECT datname FROM pg_database';
 
-	/**
-	 * List databases statement
-	 *
-	 * @var	string
-	 */
-	protected $_list_databases	= 'SELECT datname FROM pg_database';
+    /**
+     * OPTIMIZE TABLE statement.
+     *
+     * @var string
+     */
+    protected $_optimize_table = 'REINDEX TABLE %s';
 
-	/**
-	 * OPTIMIZE TABLE statement
-	 *
-	 * @var	string
-	 */
-	protected $_optimize_table	= 'REINDEX TABLE %s';
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Export
-	 *
-	 * @param	array	$params	Preferences
-	 * @return	mixed
-	 */
-	protected function _backup($params = array())
-	{
-		// Currently unsupported
-		return $this->db->display_error('db_unsupported_feature');
-	}
+    /**
+     * Export.
+     *
+     * @param array $params Preferences
+     *
+     * @return mixed
+     */
+    protected function _backup($params = [])
+    {
+        // Currently unsupported
+        return $this->db->display_error('db_unsupported_feature');
+    }
 }
 
 /* End of file postgre_utility.php */
